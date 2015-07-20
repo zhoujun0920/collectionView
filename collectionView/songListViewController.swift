@@ -7,13 +7,14 @@
 //
 
 import UIKit
+import MediaPlayer
 
 class songListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    var uniqueSongs :[MPMediaItem] = [MPMediaItem]()
     var selectListNumber: Int = Int()
     var songs: jamList = jamList()
     var songNumber: Int = Int()
-    //var songName: String = String()
     
     @IBOutlet weak var listName: UILabel!
     
@@ -22,17 +23,25 @@ class songListViewController: UIViewController, UITableViewDelegate, UITableView
     
     override func viewDidLoad() {
         listName.text = songs.listname
+        var songCollection = MPMediaQuery.songsQuery()
+        uniqueSongs = songCollection.items as! [MPMediaItem]
+        
+        uniqueSongs = uniqueSongs.sorted{ $0.title < $1.title }
+        
     }
     
     override func didReceiveMemoryWarning() {
         
     }
     
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell:UITableViewCell = self.listTableView.dequeueReusableCellWithIdentifier("cell") as! UITableViewCell
         
-        cell.textLabel?.text = songs.listContent[indexPath.row].name
-        
+                
         
         return cell
     }
