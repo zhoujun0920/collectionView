@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MediaPlayer
 
 class jamListViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
 
@@ -16,10 +17,11 @@ class jamListViewController: UIViewController, UICollectionViewDataSource, UICol
     var startPointY: Int = Int()
     
     var Songs: [Song] = [Song]()
-    var collectionArray = ["Favorite", "Recent Played", "Recent Added", "New Playlist"]
-    var imageArray = ["jay.jpg", "jay2.jpg", "jay4.jpeg", "jay5.jpg"]
+    var collectionArray = ["Favorite", "Recent Played", "Most Played", "New Playlist"]
+    var imageArray = [UIImage(named: "jay.jpg"), UIImage(named: "jay2.jpg"), UIImage(named: "jay4.jpeg"), UIImage(named: "jay5.jpg")]
     var numberArray = ["no", "no", "no", ""]
     var listTotal: [jamList] = [jamList]()
+    var newList: [MPMediaItem] = [MPMediaItem]()
     
     var selectedImage: UIImageView = UIImageView()
     
@@ -36,7 +38,7 @@ class jamListViewController: UIViewController, UICollectionViewDataSource, UICol
         recentplayed.listname = "Recent Played"
         listTotal.append(recentplayed)
         var recentadded: jamList = jamList()
-        recentadded.listname = "Recent Added"
+        recentadded.listname = "Most Played"
         listTotal.append(recentadded)
         
         var listNumber = listTotal.count
@@ -81,7 +83,7 @@ class jamListViewController: UIViewController, UICollectionViewDataSource, UICol
         }
         
         var imageView = cell.viewWithTag(1) as! UIImageView
-        imageView.image = UIImage(named: imageArray[indexPath.row])!
+        imageView.image = imageArray[indexPath.row]
 
         return cell
     }
