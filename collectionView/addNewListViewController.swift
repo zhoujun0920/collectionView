@@ -38,7 +38,7 @@ class addNewListViewController: UIViewController, UIImagePickerControllerDelegat
         //addTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
 
         // Do any additional setup after loading the view.
-        
+        coverImage.image = UIImage(named: "jay.jpg")
         listName.text = "New List"
         
         coverImage.layer.borderWidth = 1
@@ -167,7 +167,8 @@ class addNewListViewController: UIViewController, UIImagePickerControllerDelegat
                 var n = find(selectedSongs, uniqueSongs[indexPath.row])
                 if n != nil {
                     var temp = NSIndexPath(forRow: n!, inSection: 1)
-                    cell.selected = true
+                    tableView.selectRowAtIndexPath(temp, animated: true, scrollPosition: UITableViewScrollPosition.None)
+                    //cell.selected = true
                 }
             }
             
@@ -180,7 +181,8 @@ class addNewListViewController: UIViewController, UIImagePickerControllerDelegat
                 var n = find(selectedSongs, filteredSongs[indexPath.row])
                 if n != nil {
                     var temp = NSIndexPath(forRow: n!, inSection: 1)
-                    cell.selected = true
+                    tableView.selectRowAtIndexPath(temp, animated: true, scrollPosition: UITableViewScrollPosition.None)
+                    //cell.selected = true
                 }
             }
         }
