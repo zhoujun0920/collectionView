@@ -10,7 +10,7 @@ import UIKit
 import MediaPlayer
 import Foundation
 
-class addNewListViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchBarDelegate {
+class addNewListViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchBarDelegate{
     
     var uniqueSongs :[MPMediaItem] = [MPMediaItem]()
     var filteredSongs: [MPMediaItem] = [MPMediaItem]()
@@ -52,6 +52,7 @@ class addNewListViewController: UIViewController, UIImagePickerControllerDelegat
         //reorganizeTable()
         
         
+        
         self.resultSearchController = UISearchController(searchResultsController: nil)
         self.resultSearchController.searchResultsUpdater = self
         
@@ -65,6 +66,37 @@ class addNewListViewController: UIViewController, UIImagePickerControllerDelegat
     
     }
     
+//    override func viewDidAppear(animated: Bool) {
+//        if self.resultSearchController.active == false {
+//            
+//            if uniqueSongs.count > 0 && selectedSongs.count > 0 {
+//                for var index = 0; index < uniqueSongs.count; index++ {
+//                    var n = find(uniqueSongs, selectedSongs[index])
+//                    if n != nil {
+//                        var indexPath = NSIndexPath(forRow: n!, inSection: 1)
+//                        self.addTableView.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: UITableViewScrollPosition.None)
+//
+//                    //cell.selected = true
+//                    }
+//                }
+//            }
+//            
+//        } else {
+//            
+//            if filteredSongs.count > 0 && selectedSongs.count > 0 {
+//                for var index = 0; index < filteredSongs.count; index++ {
+//                    var n = find(filteredSongs, selectedSongs[index])
+//                    if n != nil {
+//                        var indexPath = NSIndexPath(forRow: n!, inSection: 1)
+//                        self.addTableView.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: UITableViewScrollPosition.None)
+//
+//                    //cell.selected = true
+//                    }
+//                }
+//            }
+//        }
+//
+//    }
 /*
     func reorganizeTable() {
         let specialKey = "Others"
@@ -203,11 +235,6 @@ class addNewListViewController: UIViewController, UIImagePickerControllerDelegat
     func updateSearchResultsForSearchController(searchController: UISearchController) {
         self.filteredSongs.removeAll(keepCapacity: false)
         filterSongs(searchController.searchBar.text)
-        
-
-        
-
-        
         self.addTableView.reloadData()
         
 //        for var index = 0 ; index < selectedSongs.count; index++ {
@@ -316,11 +343,14 @@ class addNewListViewController: UIViewController, UIImagePickerControllerDelegat
         var refreshAlert = UIAlertController(title: "Back to JamList", message: "Are you sure you want back to JamList?", preferredStyle: UIAlertControllerStyle.Alert)
         
         refreshAlert.addAction(UIAlertAction(title: "Yes", style: .Default, handler: { (action: UIAlertAction!) in
-            var selectedItemIndex = self.addTableView.indexPathForSelectedRow()!.row
-            var jamListView: jamListViewController = jamListViewController()
-            jamListView.collectionArray.insert(self.listName.text, atIndex: 3)
-            jamListView.imageArray.insert(self.coverImage.image, atIndex: 3)
-            //jamListView.numberArray.insert(, atIndex: <#Int#>)
+            //var jamListView: jamListViewController = jamListViewController()
+            GlobalList.collectionArray.insert(self.listName.text, atIndex: 3)
+            GlobalList.imageArray.insert(self.coverImage.image!, atIndex: 3)
+            GlobalList.newList = self.selectedSongs
+            GlobalList.numberArray.insert("\(self.selectedSongs.count)", atIndex: 3)
+            var newJamList: jamList = jamList()
+            newJamList.listname = self.listName.text
+            GlobalList.listTotal.append(newJamList)
             self.dismissViewControllerAnimated(true, completion: nil)
         }))
         

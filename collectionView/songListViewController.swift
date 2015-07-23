@@ -14,6 +14,7 @@ class songListViewController: UIViewController, UITableViewDelegate, UITableView
     var uniqueSongs :[MPMediaItem] = [MPMediaItem]()
     var specificSongs : [MPMediaItem] = [MPMediaItem]()
     var filteredSongs: [MPMediaItem] = [MPMediaItem]()
+    
     var selectListNumber: Int = Int()
     var songs: jamList = jamList()
     var songNumber: Int = Int()
@@ -36,6 +37,8 @@ class songListViewController: UIViewController, UITableViewDelegate, UITableView
             specificSongs = recentPlayedSongs()
         } else if selectListNumber == 2 {
             specificSongs = mostPlayedSongs()
+        } else {
+            specificSongs = GlobalList.newList
         }
         
         self.resultSearchController = UISearchController(searchResultsController: nil)
@@ -61,10 +64,22 @@ class songListViewController: UIViewController, UITableViewDelegate, UITableView
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell:MusicCellforSongListView = self.listTableView.dequeueReusableCellWithIdentifier("cell") as! MusicCellforSongListView
         
-        if selectListNumber == 0 {
-            
-        } else if selectListNumber == 1 {
-            
+//        if selectListNumber == 0 {
+//            
+//        } else if selectListNumber == 1 {
+//            
+//            if self.resultSearchController.active == false {
+//                cell.coverImage.image = specificSongs[indexPath.row].artwork.imageWithSize(CGSize(width: 54, height: 54))
+//                cell.mainTitle.text = specificSongs[indexPath.row].title
+//                cell.subTitle.text = specificSongs[indexPath.row].artist
+//            } else {
+//                cell.coverImage.image = self.filteredSongs[indexPath.row].artwork.imageWithSize(CGSize(width: 54, height: 54))
+//                cell.mainTitle.text = filteredSongs[indexPath.row].title
+//                cell.subTitle.text = filteredSongs[indexPath.row].artist
+//            }
+//            
+//        } else if selectListNumber == 2 {
+//            
             if self.resultSearchController.active == false {
                 cell.coverImage.image = specificSongs[indexPath.row].artwork.imageWithSize(CGSize(width: 54, height: 54))
                 cell.mainTitle.text = specificSongs[indexPath.row].title
@@ -74,22 +89,10 @@ class songListViewController: UIViewController, UITableViewDelegate, UITableView
                 cell.mainTitle.text = filteredSongs[indexPath.row].title
                 cell.subTitle.text = filteredSongs[indexPath.row].artist
             }
+//        } else {
+//            
+//        }
             
-        } else if selectListNumber == 2 {
-            
-            if self.resultSearchController.active == false {
-                cell.coverImage.image = specificSongs[indexPath.row].artwork.imageWithSize(CGSize(width: 54, height: 54))
-                cell.mainTitle.text = specificSongs[indexPath.row].title
-                cell.subTitle.text = specificSongs[indexPath.row].artist
-            } else {
-                cell.coverImage.image = self.filteredSongs[indexPath.row].artwork.imageWithSize(CGSize(width: 54, height: 54))
-                cell.mainTitle.text = filteredSongs[indexPath.row].title
-                cell.subTitle.text = filteredSongs[indexPath.row].artist
-            }
-        } else {
-            
-        }
-                
         
         return cell
     }

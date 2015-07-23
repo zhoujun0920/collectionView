@@ -9,42 +9,63 @@
 import UIKit
 import MediaPlayer
 
+struct GlobalList {
+    static var collectionArray: [String] = [String]()
+    static var imageArray: [UIImage] = [UIImage]()
+    static var numberArray: [String] = [String]()
+    static var newList: [MPMediaItem] = [MPMediaItem]()
+    static var listTotal: [jamList] = [jamList]()
+}
+
+
+
 class jamListViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
 
+    //var secondViewController = (segue.destinationViewController.visibleViewController as addNewListViewController)
+    
+    //secondViewController.delegate = self
+    
     var addButton: UIButton = UIButton()
     
     var startPointX: Int = Int()
     var startPointY: Int = Int()
     
     var Songs: [Song] = [Song]()
-    var collectionArray = ["Favorite", "Recent Played", "Most Played", "New Playlist"]
-    var imageArray = [UIImage(named: "jay.jpg"), UIImage(named: "jay2.jpg"), UIImage(named: "jay4.jpeg"), UIImage(named: "jay5.jpg")]
-    var numberArray = ["no", "no", "no", ""]
-    var listTotal: [jamList] = [jamList]()
-    var newList: [MPMediaItem] = [MPMediaItem]()
+
+
+
     
     var selectedImage: UIImageView = UIImageView()
     
     let transition = PopAnimator()
     
+    @IBOutlet weak var jamListCollectionView: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        GlobalList.collectionArray = ["Favorite", "Recent Played", "Most Played", "New Playlist"]
+        GlobalList.imageArray = [UIImage(named: "jay.jpg")!, UIImage(named: "jay2.jpg")!, UIImage(named: "jay4.jpeg")!, UIImage(named: "jay5.jpg")!]
+        GlobalList.numberArray = ["no", "no", "no", ""]
+        
         var favoriteSong: jamList = jamList()
         favoriteSong.listname = "Favorite"
-        listTotal.append(favoriteSong)
+        GlobalList.listTotal.append(favoriteSong)
         var recentplayed: jamList = jamList()
         recentplayed.listname = "Recent Played"
-        listTotal.append(recentplayed)
+        GlobalList.listTotal.append(recentplayed)
         var recentadded: jamList = jamList()
         recentadded.listname = "Most Played"
-        listTotal.append(recentadded)
+        GlobalList.listTotal.append(recentadded)
         
-        var listNumber = listTotal.count
-        
+        var listNumber = GlobalList.listTotal.count
         
 
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        jamListCollectionView.reloadData()
     }
     
 
@@ -54,7 +75,7 @@ class jamListViewController: UIViewController, UICollectionViewDataSource, UICol
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return collectionArray.count
+        return GlobalList.collectionArray.count
     }
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -70,10 +91,10 @@ class jamListViewController: UIViewController, UICollectionViewDataSource, UICol
         
         var number = cell.viewWithTag(3) as! UILabel
         var name = cell.viewWithTag(2) as! UILabel
-        name.text = collectionArray[indexPath.row]
+        name.text = GlobalList.collectionArray[indexPath.row]
         name.textColor = UIColor.redColor()
-        if indexPath.row != collectionArray.count - 1 {
-            number.text = numberArray[indexPath.row] + " songs"
+        if indexPath.row != GlobalList.collectionArray.count - 1 {
+            number.text = GlobalList.numberArray[indexPath.row] + " songs"
             number.textColor = UIColor.blueColor()
             name.textColor = UIColor.redColor()
         } else {
@@ -83,7 +104,7 @@ class jamListViewController: UIViewController, UICollectionViewDataSource, UICol
         }
         
         var imageView = cell.viewWithTag(1) as! UIImageView
-        imageView.image = imageArray[indexPath.row]
+        imageView.image = GlobalList.imageArray[indexPath.row]
 
         return cell
     }
@@ -96,10 +117,10 @@ class jamListViewController: UIViewController, UICollectionViewDataSource, UICol
         //        UIView.animateWithDuration(0.5, delay: 0.1, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: nil, animations: ({
         //            cell?.transform = CGAffineTransformMakeScale(1.0, 1.0)
         //        }), completion: nil)
-        if indexPath.row != collectionArray.count - 1 {
+        if indexPath.row != GlobalList.collectionArray.count - 1 {
             let songListView = storyboard!.instantiateViewControllerWithIdentifier("songList") as! songListViewController
             println(indexPath.row)
-            songListView.songs = listTotal[indexPath.row]
+            songListView.songs = GlobalList.listTotal[indexPath.row]
         
             songListView.selectListNumber = indexPath.row
             //songListView.selectListName = collectionArray[indexPath.row]
